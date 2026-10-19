@@ -116,3 +116,21 @@ def _status(req: DoseRequest) -> str:
     return "EXPERIMENTAL_USER_COEFFICIENTS_NOT_VERIFIED"
 
 
+def _experimental_need(req: DoseRequest, season: dict[str, float], stage: dict[str, float]):
+    c = req.calibration
+    soil = req.soil
+    soil_contribution = {
+        "N": soil.n_mgkg * c.n_kg_ha_per_mgkg,
+        "P2O5": soil.p_mgkg * c.p2o5_kg_ha_per_mgkg,
+        "K2O": soil.k_mgkg * c.k2o_kg_ha_per_mgkg,
+    }
+    # Important: subtract only once over the *whole season*, not again each week.
+    seasonal_residual = {n: max(0.0, season[n] - soil_contribution[n]) for n in NUTRIENTS}
+    # Allocate the experimental remaining seasonal input using reference application shares.
+    stage_input = {
+        n: (seasonal_residual[n] * stage[n] / season[n] if season[n] > 0 else 0.0)
+        for n in NUTRIENTS
+    }
+    return soil_contribution, seasonal_residual, stage_input
+
+
