@@ -63,3 +63,24 @@ class Liquid(BaseModel):
         return self
 
 
+class Calibration(BaseModel):
+    """Operator-supplied demo transfer coefficients, NOT universal agronomic factors.
+
+    Units: nutrient kg/ha available to the crop per mg/kg of the respective
+    soil sensor's N, P or K reading. P and K coefficients are expressed in
+    P2O5 and K2O fertilizer-equivalent nutrient units, respectively.
+    No default coefficients are taken from published studies.
+    """
+    n_kg_ha_per_mgkg: float | None = Field(default=None, ge=0, le=100)
+    p2o5_kg_ha_per_mgkg: float | None = Field(default=None, ge=0, le=100)
+    k2o_kg_ha_per_mgkg: float | None = Field(default=None, ge=0, le=100)
+    provenance: str = Field(default="", max_length=1000)
+
+    def complete(self) -> bool:
+        return all(v is not None for v in (
+            self.n_kg_ha_per_mgkg,
+            self.p2o5_kg_ha_per_mgkg,
+            self.k2o_kg_ha_per_mgkg,
+        ))
+
+
