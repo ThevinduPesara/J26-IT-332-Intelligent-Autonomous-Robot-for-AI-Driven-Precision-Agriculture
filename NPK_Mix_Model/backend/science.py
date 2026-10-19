@@ -182,13 +182,35 @@ def calculate(req: DoseRequest) -> dict:
     area_ratio = area_m2 / 10_000.0
     totals = {name: sum(s[name] for s in SCHEDULE) for name in ("urea", "tsp", "mop")}
     season_nutrients_kg_ha = _nutrients_from_product(**totals)
+    stage = next(s for s in SCHEDULE if s["week"] == req.plot.stage_week)
+    stage_nutrients_kg_ha = _nutrients_from_product(stage["urea"], stage["tsp"], stage["mop"])
+    schedule = []
+    for s in SCHEDULE:
+        mass = _scale({k: s[k] for k in ("urea", "tsp", "mop")}, area_ratio * 1000)
+        due = None
+        if req.plot.transplant_date is not None:
+            due = (req.plot.transplant_date + timedelta(weeks=s["week"])).isoformat()
+        schedule.append({
+            "week": s["week"], "stage": s["stage"], "due_date": due,
+            "reference_products_kg_ha": {k: s[k] for k in ("urea", "tsp", "mop")},
+            "reference_products_g_for_plot": _round(mass),
+            "reference_nutrients_g_for_plot": _round(_scale(
+                _nutrients_from_product(s["urea"], s["tsp"], s["mop"]), area_ratio * 1000)),
+        })
     return {
         "status": _status(req),
+        "source": SOURCE_NOTE,
+        "source_url": DOA_URL,
         "plot": {"area_m2": round(area_m2, 5), "plants": req.plot.plants, "stage_week": req.plot.stage_week},
         "mode": req.calculation_mode,
         "reference": {
+            "schedule": schedule,
             "season_product_kg_ha": _round(totals),
+            "season_product_g_plot": _round(_scale(totals, area_ratio * 1000)),
             "season_nutrient_kg_ha": _round(season_nutrients_kg_ha),
+            "stage_product_g_plot": _round(_scale({k: stage[k] for k in totals}, area_ratio * 1000)),
+            "stage_nutrient_g_plot": _round(_scale(stage_nutrients_kg_ha, area_ratio * 1000)),
+            "stage_date": schedule[[r["week"] for r in schedule].index(req.plot.stage_week)]["due_date"],
         },
     }
 
