@@ -32,3 +32,11 @@ UNITS_M2 = {"m2": 1.0, "perch": 25.29285264, "acre": 4046.8564224, "hectare": 10
 NUTRIENTS = ("N", "P2O5", "K2O")
 
 
+class Plot(BaseModel):
+    area: float = Field(default=10.0, gt=0, le=1_000_000)
+    unit: Literal["m2", "perch", "acre", "hectare"] = "m2"
+    plants: int = Field(default=20, ge=1, le=1_000_000)
+    stage_week: Literal[0, 2, 4, 8, 12, 16] = 4
+    transplant_date: date | None = None
+
+
