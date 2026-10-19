@@ -182,6 +182,7 @@ def calculate(req: DoseRequest) -> dict:
     area_ratio = area_m2 / 10_000.0
     totals = {name: sum(s[name] for s in SCHEDULE) for name in ("urea", "tsp", "mop")}
     season_nutrients_kg_ha = _nutrients_from_product(**totals)
+
     stage = next(s for s in SCHEDULE if s["week"] == req.plot.stage_week)
     stage_nutrients_kg_ha = _nutrients_from_product(stage["urea"], stage["tsp"], stage["mop"])
     schedule = []
@@ -197,11 +198,34 @@ def calculate(req: DoseRequest) -> dict:
             "reference_nutrients_g_for_plot": _round(_scale(
                 _nutrients_from_product(s["urea"], s["tsp"], s["mop"]), area_ratio * 1000)),
         })
+
+    mode_status = _status(req)
+    soil_supply = None
+    seasonal_remaining = None
+    stage_modelled = None
+    liquid_result = None
+    if req.calculation_mode == "experimental_soil" and req.calibration.complete():
+        soil_supply, seasonal_remaining, stage_modelled = _experimental_need(
+            req, season_nutrients_kg_ha, stage_nutrients_kg_ha
+        )
+        desired_plot_g = _scale(stage_modelled, area_ratio * 1000)
+        liquid_result = _liquid_preview(desired_plot_g, req.liquid)
+        if liquid_result["comparison_volume_ml"] is not None:
+            v = liquid_result["comparison_volume_ml"]
+            liquid_result["per_plant_comparison_ml"] = round(v / req.plot.plants, 4)
+    elif req.calculation_mode == "reference":
+        # The DOA quantities are Urea/TSP/MOP masses, NOT an instruction to
+        # substitute one liquid at the same apparent NPK nutrient concentration.
+        pass
+
     return {
-        "status": _status(req),
+        "status": mode_status,
         "source": SOURCE_NOTE,
         "source_url": DOA_URL,
+        "research_method_url": RESEARCH_URL,
         "plot": {"area_m2": round(area_m2, 5), "plants": req.plot.plants, "stage_week": req.plot.stage_week},
+        "soil": req.soil.model_dump(),
+        "liquid": req.liquid.model_dump(),
         "mode": req.calculation_mode,
         "reference": {
             "schedule": schedule,
@@ -212,6 +236,21 @@ def calculate(req: DoseRequest) -> dict:
             "stage_nutrient_g_plot": _round(_scale(stage_nutrients_kg_ha, area_ratio * 1000)),
             "stage_date": schedule[[r["week"] for r in schedule].index(req.plot.stage_week)]["due_date"],
         },
+        "modelled": {
+            "calibration": req.calibration.model_dump() if req.calculation_mode == "experimental_soil" else None,
+            "estimated_soil_contribution_kg_ha": _round(soil_supply) if soil_supply else None,
+            "residual_season_nutrient_kg_ha": _round(seasonal_remaining) if seasonal_remaining else None,
+            "stage_target_nutrient_g_plot": _round(_scale(stage_modelled, area_ratio * 1000)) if stage_modelled else None,
+            "liquid_comparison": liquid_result,
+        },
+        "warnings": [
+            "EDUCATIONAL / RESEARCH PROTOTYPE ONLY — not approved for application or dispensing.",
+            "DOA reference uses solid Urea, TSP and MOP masses; these are not directly interchangeable with any liquid NPK formulation.",
+            "Sensor mg/kg cannot be directly subtracted from kg/ha. A validated soil-to-plant-availability model is required.",
+            "The research-mode coefficients are supplied by the user. Neither the code nor the source validates them for Sri Lankan soil.",
+            "A single fixed-ratio NPK liquid cannot independently satisfy all three nutrient targets; inspect surpluses and shortfalls.",
+            "No physical pump actuation is implemented. Always seek agronomic and product-label review before use.",
+        ],
     }
 
 
