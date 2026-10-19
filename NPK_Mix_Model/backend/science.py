@@ -40,3 +40,11 @@ class Plot(BaseModel):
     transplant_date: date | None = None
 
 
+class Soil(BaseModel):
+    n_mgkg: float = Field(default=80.0, ge=0, le=100000)
+    p_mgkg: float = Field(default=12.0, ge=0, le=100000)
+    k_mgkg: float = Field(default=90.0, ge=0, le=100000)
+    ph: float | None = Field(default=6.3, ge=0, le=14)
+    origin: Literal["SIMULATED", "MANUAL_UNVERIFIED"] = "SIMULATED"
+
+
