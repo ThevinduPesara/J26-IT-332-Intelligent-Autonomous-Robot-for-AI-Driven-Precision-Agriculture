@@ -16,3 +16,14 @@ app.add_middleware(CORSMiddleware,
 def health():
     return {"status": "ok", "app": "NutrientOS", "simulation_only": True, "version": "1.0.0"}
 
+@app.get("/api/v1/config")
+def config():
+    return {"crop": "Sri Lankan field chilli", "source_url": DOA_URL,
+            "schedule_kg_ha": list(SCHEDULE), "demo": demo_request().model_dump(mode="json"),
+            "dose_requires_user_calibration": True, "physical_actuation": False}
+
+@app.get("/api/v1/sensor-demo")
+def sensor_demo():
+    return {"n_mgkg": 80, "p_mgkg": 12, "k_mgkg": 90,
+            "ph": 6.3, "origin": "SIMULATED", "not_sensor_measurements": True}
+
