@@ -1,0 +1,15 @@
+# Datasets and generated previews
+paddy field.v1i.coco-segmentation/
+annotation_visual_check/
+annotation_check_v2/
+
+# Frontend/backend application (intentionally excluded from this module)
+PaddyVision_Studio_Complete/
+PaddyVision_Studio_Complete.zip
+
+# Python and local environment files
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
