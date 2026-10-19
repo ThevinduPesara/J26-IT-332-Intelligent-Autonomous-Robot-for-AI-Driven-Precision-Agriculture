@@ -84,3 +84,11 @@ class Calibration(BaseModel):
         ))
 
 
+class DoseRequest(BaseModel):
+    plot: Plot = Field(default_factory=Plot)
+    soil: Soil = Field(default_factory=Soil)
+    liquid: Liquid = Field(default_factory=Liquid)
+    calculation_mode: Literal["reference", "experimental_soil"] = "reference"
+    calibration: Calibration = Field(default_factory=Calibration)
+
+
