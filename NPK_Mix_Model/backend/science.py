@@ -177,3 +177,19 @@ def _liquid_preview(deficit_g: dict[str, float], liquid: Liquid) -> dict:
     }
 
 
+def calculate(req: DoseRequest) -> dict:
+    area_m2 = req.plot.area * UNITS_M2[req.plot.unit]
+    area_ratio = area_m2 / 10_000.0
+    totals = {name: sum(s[name] for s in SCHEDULE) for name in ("urea", "tsp", "mop")}
+    season_nutrients_kg_ha = _nutrients_from_product(**totals)
+    return {
+        "status": _status(req),
+        "plot": {"area_m2": round(area_m2, 5), "plants": req.plot.plants, "stage_week": req.plot.stage_week},
+        "mode": req.calculation_mode,
+        "reference": {
+            "season_product_kg_ha": _round(totals),
+            "season_nutrient_kg_ha": _round(season_nutrients_kg_ha),
+        },
+    }
+
+
