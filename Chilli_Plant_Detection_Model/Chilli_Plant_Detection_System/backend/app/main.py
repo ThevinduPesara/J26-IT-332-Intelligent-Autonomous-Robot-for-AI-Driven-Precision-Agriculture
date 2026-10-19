@@ -38,3 +38,20 @@ app.mount(
 )
 
 model_service = ChilliModelService()
+
+
+@app.get("/")
+def root():
+    return {
+        "system": "Chilli Plant Detection API",
+        "status": "running",
+        "docs": "/docs",
+    }
+
+
+@app.get("/health")
+def health():
+    return {
+        "status": "healthy",
+        "model_loaded": True,
+    }
