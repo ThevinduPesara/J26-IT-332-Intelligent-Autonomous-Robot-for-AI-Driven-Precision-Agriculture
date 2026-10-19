@@ -48,3 +48,18 @@ class Soil(BaseModel):
     origin: Literal["SIMULATED", "MANUAL_UNVERIFIED"] = "SIMULATED"
 
 
+class Liquid(BaseModel):
+    """Labels N-P2O5-K2O, mass percent (w/w), not P or K elemental."""
+    label_n_percent: float = Field(default=5.0, ge=0, le=100)
+    label_p2o5_percent: float = Field(default=5.0, ge=0, le=100)
+    label_k2o_percent: float = Field(default=5.0, ge=0, le=100)
+    density_g_ml: float = Field(default=1.10, gt=0, le=3)
+    dilution_factor: float = Field(default=1.0, ge=1, le=10000)
+
+    @model_validator(mode="after")
+    def composition_limit(self):
+        if sum((self.label_n_percent, self.label_p2o5_percent, self.label_k2o_percent)) > 100:
+            raise ValueError("The three guaranteed-analysis percentages cannot sum above 100%")
+        return self
+
+
