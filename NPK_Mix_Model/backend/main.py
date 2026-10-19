@@ -27,3 +27,6 @@ def sensor_demo():
     return {"n_mgkg": 80, "p_mgkg": 12, "k_mgkg": 90,
             "ph": 6.3, "origin": "SIMULATED", "not_sensor_measurements": True}
 
+@app.post("/api/v1/calculate")
+def calc(req: DoseRequest):
+    return calculate(req)
