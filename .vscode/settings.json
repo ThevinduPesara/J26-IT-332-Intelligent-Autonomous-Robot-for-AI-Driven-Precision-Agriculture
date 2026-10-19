@@ -1,4 +1,20 @@
 {
-    "python-envs.defaultEnvManager": "ms-python.python:conda",
-    "python-envs.defaultPackageManager": "ms-python.python:conda"
+  "python-envs.defaultEnvManager": "ms-python.python:conda",
+  "python-envs.defaultPackageManager": "ms-python.python:conda",
+  "python-envs.pythonProjects": [
+    {
+      "path": ".",
+      "envManager": "ms-python.python:conda",
+      "packageManager": "ms-python.python:conda"
+    }
+  ],
+  "task.allowAutomaticTasks": true,
+  "debug.openDebug": "neverOpen",
+  "terminal.integrated.inheritEnv": false,
+  "tasks": {
+    "label": "lint on open",
+    "type": "shell",
+    "command": "npm run lint",
+    "runOn": "folderOpen"
+  }
 }
