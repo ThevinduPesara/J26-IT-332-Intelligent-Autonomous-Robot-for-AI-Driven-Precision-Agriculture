@@ -134,3 +134,46 @@ def _experimental_need(req: DoseRequest, season: dict[str, float], stage: dict[s
     return soil_contribution, seasonal_residual, stage_input
 
 
+def _liquid_preview(deficit_g: dict[str, float], liquid: Liquid) -> dict:
+    """Nonnegative least-squares fit of one fixed-ratio solution to 3 targets.
+
+    Minimizes sum_i (c_i*volume_ml - target_g_i)^2, volume_ml >= 0.
+    This is an engineering comparison, NOT an authorized fertilizer prescription.
+    """
+    labels = {
+        "N": liquid.label_n_percent,
+        "P2O5": liquid.label_p2o5_percent,
+        "K2O": liquid.label_k2o_percent,
+    }
+    grams_per_ml = {
+        n: (p / 100.0) * liquid.density_g_ml / liquid.dilution_factor
+        for n, p in labels.items()
+    }
+    norm2 = sum(v * v for v in grams_per_ml.values())
+    dot = sum(grams_per_ml[n] * deficit_g[n] for n in NUTRIENTS)
+    volume_ml = max(0.0, dot / norm2) if norm2 > 0 else None
+    supplied = ({n: volume_ml * grams_per_ml[n] for n in NUTRIENTS}
+                if volume_ml is not None else {n: 0 for n in NUTRIENTS})
+    residual = {n: deficit_g[n] - supplied[n] for n in NUTRIENTS}
+    cautions = []
+    if volume_ml is None:
+        cautions.append("The selected liquid contains no N, P2O5 or K2O; no volume can be calculated.")
+    else:
+        for n in NUTRIENTS:
+            if residual[n] < -1e-7:
+                cautions.append(f"{n}: fixed-ratio liquid exceeds the modelled target by {-residual[n]:.3f} g.")
+            elif residual[n] > 1e-7:
+                cautions.append(f"{n}: the single mixture leaves a modelled shortfall of {residual[n]:.3f} g.")
+    return {
+        "comparison_volume_ml": round(volume_ml, 4) if volume_ml is not None else None,
+        "per_plant_comparison_ml": round(volume_ml / 1, 4) if volume_ml is not None else None,
+        "grams_per_ml": _round(grams_per_ml, 7),
+        "nutrients_delivered_g": _round(supplied),
+        "nutrient_difference_g_target_minus_delivered": _round(residual),
+        "constraints": cautions,
+        "optimizer": "Nonnegative unweighted least-squares (one fixed-ratio liquid; model comparison only)",
+        "pump_target_ml": None,
+        "pump_enabled": False,
+    }
+
+
