@@ -1,6 +1,7 @@
 from io import BytesIO
 from uuid import uuid4
 import json
+
 import cv2
 import numpy as np
 from fastapi import (
@@ -11,6 +12,7 @@ from fastapi import (
     Query,
 )
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from PIL import Image, UnidentifiedImageError
 
@@ -233,4 +235,88 @@ async def predict_frame(
     return await process_prediction(
         file,
         confidence,
+    )
+
+
+def camera_generator():
+    camera = cv2.VideoCapture(
+        CAMERA_INDEX,
+        cv2.CAP_DSHOW,
+    )
+
+    if not camera.isOpened():
+        camera = cv2.VideoCapture(CAMERA_INDEX)
+
+    if not camera.isOpened():
+        # StreamingResponse cannot cleanly raise after headers;
+        # simply terminate the generator.
+        return
+
+    camera.set(
+        cv2.CAP_PROP_FRAME_WIDTH,
+        1280,
+    )
+    camera.set(
+        cv2.CAP_PROP_FRAME_HEIGHT,
+        720,
+    )
+
+    try:
+        while True:
+            ok, frame = camera.read()
+
+            if not ok:
+                break
+
+            prediction = model_service.predict(frame)
+
+            annotated = prediction["annotated_image"]
+
+            text = (
+                f"{prediction['overall_prediction']} "
+                f"{prediction['overall_confidence']:.2f}"
+            )
+
+            cv2.putText(
+                annotated,
+                text,
+                (20, 42),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                1.0,
+                (255, 255, 255),
+                2,
+                cv2.LINE_AA,
+            )
+
+            ok, buffer = cv2.imencode(
+                ".jpg",
+                annotated,
+                [
+                    int(cv2.IMWRITE_JPEG_QUALITY),
+                    85,
+                ],
+            )
+
+            if not ok:
+                continue
+
+            yield (
+                b"--frame\r\n"
+                b"Content-Type: image/jpeg\r\n\r\n"
+                + buffer.tobytes()
+                + b"\r\n"
+            )
+
+    finally:
+        camera.release()
+
+
+@app.get("/camera/stream")
+def camera_stream():
+    return StreamingResponse(
+        camera_generator(),
+        media_type=(
+            "multipart/x-mixed-replace;"
+            "boundary=frame"
+        ),
     )
