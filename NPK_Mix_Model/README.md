@@ -43,13 +43,30 @@ python -m streamlit run frontend/app.py --server.port 8501
 
 Alternatively, after installing dependencies, run `START_WINDOWS.bat` from a Windows installation that has `conda` accessible. For troubleshooting, use the two manual terminals above.
 
+### Run the backend with Docker
+
+Install and start Docker Desktop, then run these commands from the `NPK_Mix_Model` folder. Docker builds only the FastAPI backend; the Streamlit dashboard remains a separate service.
+
+```powershell
+docker build -f backend/Dockerfile -t nutrientos-npk-api backend
+docker run --rm -d --name nutrientos-npk-api -p 8071:8071 nutrientos-npk-api
+```
+
+Check the API at http://127.0.0.1:8071/health and open the dashboard at http://127.0.0.1:8501 after starting Streamlit separately. Stop the API container with:
+
+```powershell
+docker stop nutrientos-npk-api
+```
+
 ### Folder layout
 
 ```text
 Manjitha_NPK_Dose_Studio/
 ├── backend/
 │   ├── __init__.py
+│   ├── Dockerfile              FastAPI backend container
 │   ├── main.py                 FastAPI REST endpoints
+│   ├── requirements.txt        Backend-only dependencies
 │   └── science.py              Scientifically separated reference/simulation calculator
 ├── frontend/
 │   ├── __init__.py
@@ -133,6 +150,8 @@ python -m pytest -q
 - `GET /api/v1/config`
 - `GET /api/v1/sensor-demo`
 - `POST /api/v1/calculate`
+
+Import `NutrientOS_Frontend_API.postman_collection.json` into Postman to try only the two endpoints used by the Streamlit frontend (`GET /health` and `POST /api/v1/calculate`). It uses `http://127.0.0.1:8071` as its `baseUrl` variable; start the FastAPI backend before sending requests. `NutrientOS_NPK_Model.postman_collection.json` contains the broader set of API examples.
 
 Example request (also visible in FastAPI `/docs`):
 
