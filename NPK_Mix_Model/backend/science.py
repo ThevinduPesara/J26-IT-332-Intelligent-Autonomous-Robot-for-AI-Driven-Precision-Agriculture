@@ -108,3 +108,11 @@ def _round(d: dict[str, float], digits: int = 5) -> dict[str, float]:
     return {k: round(v, digits) for k, v in d.items()}
 
 
+def _status(req: DoseRequest) -> str:
+    if req.calculation_mode == "reference":
+        return "DOA_REFERENCE_ONLY"
+    if not req.calibration.complete():
+        return "SOIL_CALIBRATION_REQUIRED"
+    return "EXPERIMENTAL_USER_COEFFICIENTS_NOT_VERIFIED"
+
+
