@@ -254,3 +254,6 @@ def calculate(req: DoseRequest) -> dict:
     }
 
 
+def demo_request() -> DoseRequest:
+    """Safe startup request. Experimental coefficients remain unset."""
+    return DoseRequest()
