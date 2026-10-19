@@ -6,6 +6,13 @@ annotation_check_v2/
 # Frontend/backend application (intentionally excluded from this module)
 PaddyVision_Studio_Complete/
 PaddyVision_Studio_Complete.zip
+!PaddyVision_Studio_Complete/
+!PaddyVision_Studio_Complete/PaddyVision_Studio/
+!PaddyVision_Studio_Complete/PaddyVision_Studio/
+!PaddyVision_Studio_Complete/PaddyVision_Studio/backend/
+!PaddyVision_Studio_Complete/PaddyVision_Studio/backend/**
+!PaddyVision_Studio_Complete/PaddyVision_Studio/tests/
+!PaddyVision_Studio_Complete/PaddyVision_Studio/tests/**
 
 # Python and local environment files
 __pycache__/
