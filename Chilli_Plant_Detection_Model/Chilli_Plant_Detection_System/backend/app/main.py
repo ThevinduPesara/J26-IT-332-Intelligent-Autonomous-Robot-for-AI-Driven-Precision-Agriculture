@@ -216,3 +216,21 @@ async def predict_image(
         file,
         confidence,
     )
+
+
+@app.post(
+    "/predict/frame",
+    response_model=PredictionResponse,
+)
+async def predict_frame(
+    file: UploadFile = File(...),
+    confidence: float = Query(
+        default=0.25,
+        ge=0.05,
+        le=1.0,
+    ),
+):
+    return await process_prediction(
+        file,
+        confidence,
+    )
