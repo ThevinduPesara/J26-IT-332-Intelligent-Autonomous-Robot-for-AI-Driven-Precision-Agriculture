@@ -92,3 +92,19 @@ class DoseRequest(BaseModel):
     calibration: Calibration = Field(default_factory=Calibration)
 
 
+def _nutrients_from_product(urea: float, tsp: float, mop: float) -> dict[str, float]:
+    return {
+        "N": urea * REFERENCE_FRACTIONS["urea"],
+        "P2O5": tsp * REFERENCE_FRACTIONS["tsp"],
+        "K2O": mop * REFERENCE_FRACTIONS["mop"],
+    }
+
+
+def _scale(d: dict[str, float], factor: float) -> dict[str, float]:
+    return {k: v * factor for k, v in d.items()}
+
+
+def _round(d: dict[str, float], digits: int = 5) -> dict[str, float]:
+    return {k: round(v, digits) for k, v in d.items()}
+
+
