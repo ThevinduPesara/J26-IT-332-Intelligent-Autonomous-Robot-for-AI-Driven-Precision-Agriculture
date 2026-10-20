@@ -1,4 +1,0 @@
-streamlit>=1.42
-requests>=2.31
-pandas>=2.1
-Pillow>=10.0
