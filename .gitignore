@@ -1,21 +1,2 @@
-# OS / editor
-.DS_Store
-__pycache__/
-*.pyc
-
-# Environment
-.env
-venv/
-.venv/
-
-# Raw dataset (too large for GitHub)
-archive/
-archive.zip
-
-# Generated prediction images (CSV summaries are kept)
-inference_val_test/test/
-inference_val_test/val/
-
-# Runtime outputs from the backend
-ChilliGuard_Vision/ChilliGuard_Vision/backend/outputs/*
-!ChilliGuard_Vision/ChilliGuard_Vision/backend/outputs/.gitkeep
+config.bat
+node_modules
