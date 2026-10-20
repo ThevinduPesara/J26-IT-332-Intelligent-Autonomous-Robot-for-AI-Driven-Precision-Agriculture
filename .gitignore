@@ -1,12 +1,5 @@
-# Large dataset / generated outputs (not stored in git)
-archive/
-archive.zip
-inference_val_test/
-ChilliGuard_Vision/ChilliGuard_Vision/backend/outputs/*
-
-# Python / OS / env
-__pycache__/
-*.pyc
-.DS_Store
-.env
-node_modules/
+config.bat
+node_modules
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
