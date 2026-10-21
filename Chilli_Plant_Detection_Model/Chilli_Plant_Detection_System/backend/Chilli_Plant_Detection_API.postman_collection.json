@@ -1,0 +1,298 @@
+{
+	"info": {
+		"_postman_id": "c8d4e92a-3f11-4712-9c90-b1834e5699b0",
+		"name": "Chilli Plant Detection API",
+		"description": "Postman Collection for Chilli Plant NPK Deficiency Detection & Health Assessment System.\n\nBackend: FastAPI + YOLO11s Model\nClasses: Healthy, N_Def (Nitrogen), P_Def (Phosphorus), K_Def (Potassium)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. System & Health",
+			"item": [
+				{
+					"name": "Root - API Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								""
+							]
+						},
+						"description": "Returns basic API system status and documentation links."
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Model is loaded and healthy\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(\"healthy\");",
+									"    pm.expect(jsonData.model_loaded).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "Checks whether the backend server is running and the YOLO model is loaded."
+					},
+					"response": []
+				},
+				{
+					"name": "Model Information",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/model",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"model"
+							]
+						},
+						"description": "Returns metadata about the active YOLO model (classes, image size, device)."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Inference & Predictions",
+			"item": [
+				{
+					"name": "Predict Image (File Upload)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"if (jsonData.request_id) {",
+									"    pm.environment.set(\"lastRequestId\", jsonData.request_id);",
+									"    pm.collectionVariables.set(\"requestId\", jsonData.request_id);",
+									"    console.log(\"Saved requestId: \" + jsonData.request_id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"description": "Select a chilli plant leaf image (JPG/PNG)",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/predict/image?confidence=0.25",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"predict",
+								"image"
+							],
+							"query": [
+								{
+									"key": "confidence",
+									"value": "0.25",
+									"description": "Confidence threshold between 0.05 and 1.0 (default: 0.25)"
+								}
+							]
+						},
+						"description": "Upload a chilli plant image to detect Healthy, Nitrogen, Phosphorus, or Potassium deficiencies. Automatically captures `request_id` for viewing results."
+					},
+					"response": []
+				},
+				{
+					"name": "Predict Video Frame",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"description": "Frame image file (JPG/PNG)",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/predict/frame?confidence=0.25",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"predict",
+								"frame"
+							],
+							"query": [
+								{
+									"key": "confidence",
+									"value": "0.25",
+									"description": "Confidence threshold (default: 0.25)"
+								}
+							]
+						},
+						"description": "Endpoint for streaming single camera frames for low-latency inference."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Live Camera Stream",
+			"item": [
+				{
+					"name": "Get Live Camera Stream (MJPEG)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/camera/stream",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"camera",
+								"stream"
+							]
+						},
+						"description": "Returns real-time continuous MJPEG video stream with YOLO bounding box overlays directly from the server webcam."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Results & Static Assets",
+			"item": [
+				{
+					"name": "Get Annotated Image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/results/{{requestId}}/annotated.jpg",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"results",
+								"{{requestId}}",
+								"annotated.jpg"
+							]
+						},
+						"description": "Fetches the output annotated image with colored bounding boxes and deficiency labels."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Original Uploaded Image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/results/{{requestId}}/original.jpg",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"results",
+								"{{requestId}}",
+								"original.jpg"
+							]
+						},
+						"description": "Fetches the original unmodified image saved on the server for comparison."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Result JSON Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/results/{{requestId}}/result.json",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"results",
+								"{{requestId}}",
+								"result.json"
+							]
+						},
+						"description": "Downloads the JSON file containing all detection coordinates, confidence scores, and class summary."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		},
+		{
+			"key": "requestId",
+			"value": "example_request_id",
+			"type": "string"
+		}
+	]
+}
