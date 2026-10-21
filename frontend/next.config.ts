@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
       { protocol: "http", hostname: "localhost", port: "8001", pathname: "/**" },
       { protocol: "http", hostname: "localhost", port: "8002", pathname: "/**" },
       { protocol: "http", hostname: "localhost", port: "8003", pathname: "/**" },
+      { protocol: "http", hostname: "192.168.*.*", pathname: "/**" },
     ],
   },
   allowedDevOrigins: ["localhost", "127.0.0.1", "192.168.140.1", "192.168.*.*"],
