@@ -63,8 +63,8 @@ export default function PestCountQuantifier() {
         modelName="Precise Pest Counting"
         description="Upload high-magnification leaf photos or micro-camera video streams to calculate exact individual pest numbers and infestation density."
         defaultSamples={pestSamples}
-        onAnalyze={(url, type) =>
-          alert(`Precise Pest Counter Model executed on ${type.toUpperCase()}: Exactly 64 Pests Counted!`)
+        onAnalyze={(media) =>
+          alert(`Precise Pest Counter Model executed on ${media.type.toUpperCase()}: Exactly 64 Pests Counted!`)
         }
       />
 
