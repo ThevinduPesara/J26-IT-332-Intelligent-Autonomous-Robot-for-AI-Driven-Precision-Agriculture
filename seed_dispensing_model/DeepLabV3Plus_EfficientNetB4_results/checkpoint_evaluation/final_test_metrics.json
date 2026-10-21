@@ -1,0 +1,29 @@
+{
+  "pixel_accuracy": 0.8932788730919279,
+  "mean_iou": 0.6521545576992412,
+  "mean_dice": 0.758111241488586,
+  "per_class": {
+    "Existing plants": {
+      "iou": 0.8778717550996518,
+      "dice": 0.9349645445336242,
+      "ground_truth_pixels": 1357986,
+      "prediction_pixels": 1465274
+    },
+    "Soil": {
+      "iou": 0.7743493426348269,
+      "dice": 0.8728262513231514,
+      "ground_truth_pixels": 264542,
+      "prediction_pixels": 251272
+    },
+    "Weeds": {
+      "iou": 0.3042425753632449,
+      "dice": 0.46654292860898244,
+      "ground_truth_pixels": 172543,
+      "prediction_pixels": 78525
+    }
+  },
+  "loss": 0.7071181565523148,
+  "evaluated_test_images": 20,
+  "unlabelled_policy": "ignored, not reclassified as plants",
+  "note": "Pixel metrics evaluated ONLY on explicitly labelled nonoverlapping pixels."
+}
