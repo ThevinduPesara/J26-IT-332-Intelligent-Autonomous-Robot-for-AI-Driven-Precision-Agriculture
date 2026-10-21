@@ -44,7 +44,7 @@ export interface PaddyPredictionResponse {
 }
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_PADDY_API_URL || "http://127.0.0.1:8001";
+  process.env.NEXT_PUBLIC_PADDY_API_URL || "http://127.0.0.1:8003";
 
 async function throwApiError(response: Response): Promise<never> {
   let message = `PaddyVision request failed (${response.status})`;
