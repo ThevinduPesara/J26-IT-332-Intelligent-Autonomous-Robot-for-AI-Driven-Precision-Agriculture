@@ -1,0 +1,18 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: chilli_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_PATH=/app/model/best.pt
+      - CONFIDENCE_THRESHOLD=0.25
+      - IMAGE_SIZE=640
+      - CAMERA_INDEX=0
+      - MAX_UPLOAD_MB=15
+    volumes:
+      - ./backend/outputs:/app/outputs
+    restart: unless-stopped
+
