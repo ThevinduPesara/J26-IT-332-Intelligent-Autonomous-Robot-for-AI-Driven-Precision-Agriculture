@@ -3,14 +3,14 @@ title AgriBot AI Engine - Master Terminator
 color 0C
 
 echo ===============================================================================
-echo     STOPPING ALL 4 AGRIBOT AI MODEL SERVERS (Ports 8000, 8001, 8002, 8003)
+echo     STOPPING ALL AGRIBOT AI MODEL SERVERS (Ports 8000, 8001, 8002, 8003, 8501)
 echo ===============================================================================
 echo.
 
 :: 1. Terminate processes listening on AI Model ports
 echo Stopping listening ports...
 powershell -Command ^
-  "$ports = @(8000, 8001, 8002, 8003); " ^
+  "$ports = @(8000, 8001, 8002, 8003, 8501); " ^
   "foreach ($p in $ports) { " ^
   "    $conns = Get-NetTCPConnection -LocalPort $p -ErrorAction SilentlyContinue; " ^
   "    if ($conns) { " ^

@@ -32,7 +32,9 @@ export default function PestCountQuantifier() {
   const [prediction, setPrediction] = useState<PestPredictionResponse | null>(null);
   const [selectedSample, setSelectedSample] = useState<string>("/pest_samples/sample_aphid.jpg");
   const [previewImage, setPreviewImage] = useState<string>("/pest_samples/sample_aphid.jpg");
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [showAnnotated, setShowAnnotated] = useState<boolean>(true);
+  const [failedAnnotatedImage, setFailedAnnotatedImage] = useState<string | null>(null);
   const [sprayStatus, setSprayStatus] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -68,6 +70,27 @@ export default function PestCountQuantifier() {
     },
   ];
 
+  const runInferenceOnSample = async (
+    url: string,
+    name: string,
+    confidenceThreshold = confidence,
+  ) => {
+    setIsAnalyzing(true);
+    setSelectedSample(url);
+    if (!uploadedFile) setPreviewImage(url);
+
+    try {
+      const res = uploadedFile
+        ? await pestDetectionService.predictImage(uploadedFile, confidenceThreshold)
+        : await pestDetectionService.predictSample(url, name, confidenceThreshold);
+      setPrediction(res);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
   // Check backend health and model info on mount
   useEffect(() => {
     let isMounted = true;
@@ -79,37 +102,35 @@ export default function PestCountQuantifier() {
         setBackendOnline(health.status === "healthy");
         setModelInfo(info);
       }
+      if (!isMounted) return;
+
+      setIsAnalyzing(true);
+      try {
+        const prediction = await pestDetectionService.predictSample(
+          "/pest_samples/sample_aphid.jpg",
+          "Aphid Cluster",
+          0.25,
+        );
+        if (isMounted) setPrediction(prediction);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        if (isMounted) setIsAnalyzing(false);
+      }
     }
 
-    init();
-    // Run initial inference on default sample
-    runInferenceOnSample("/pest_samples/sample_aphid.jpg", "Aphid Cluster");
-
+    void init();
     return () => {
       isMounted = false;
     };
   }, []);
-
-  const runInferenceOnSample = async (url: string, name: string) => {
-    setIsAnalyzing(true);
-    setSelectedSample(url);
-    setPreviewImage(url);
-
-    try {
-      const res = await pestDetectionService.predictSample(url, name, confidence);
-      setPrediction(res);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setIsAnalyzing(false);
-    }
-  };
 
   const handleCustomUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     const objectUrl = URL.createObjectURL(file);
+    setUploadedFile(file);
     setSelectedSample("");
     setPreviewImage(objectUrl);
     setIsAnalyzing(true);
@@ -126,7 +147,14 @@ export default function PestCountQuantifier() {
 
   const handleConfidenceChange = (newVal: number) => {
     setConfidence(newVal);
-    if (selectedSample) {
+    if (uploadedFile) {
+      setIsAnalyzing(true);
+      void pestDetectionService
+        .predictImage(uploadedFile, newVal)
+        .then(setPrediction)
+        .catch((error: unknown) => console.error(error))
+        .finally(() => setIsAnalyzing(false));
+    } else if (selectedSample) {
       runInferenceOnSample(selectedSample, "Sample", newVal);
     }
   };
@@ -154,6 +182,11 @@ export default function PestCountQuantifier() {
       : pestCount <= 12
       ? { label: "Moderate Infestation (Action Recommended)", color: "text-amber-700 bg-amber-50 border-amber-200" }
       : { label: "Severe Infestation (Immediate Spray)", color: "text-red-700 bg-red-50 border-red-200" };
+  const annotatedImageUrl = showAnnotated ? prediction?.annotated_image_url : undefined;
+  const displayedImageUrl =
+    annotatedImageUrl && annotatedImageUrl !== failedAnnotatedImage
+      ? annotatedImageUrl
+      : previewImage;
 
   return (
     <div className="space-y-6">
@@ -362,16 +395,21 @@ export default function PestCountQuantifier() {
           <div className="relative rounded-2xl overflow-hidden bg-slate-950 aspect-square border border-slate-200/90 shadow-inner flex items-center justify-center">
             {previewImage && (
               <Image
-                src={
-                  showAnnotated && prediction?.annotated_image_url
-                    ? prediction.annotated_image_url
-                    : previewImage
-                }
+                src={displayedImageUrl}
                 alt="Chilli Foliage Pest Inspection"
                 fill
                 priority
+                unoptimized
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover transition-opacity duration-300"
+                onError={() => {
+                  if (
+                    annotatedImageUrl &&
+                    displayedImageUrl === annotatedImageUrl
+                  ) {
+                    setFailedAnnotatedImage(annotatedImageUrl);
+                  }
+                }}
               />
             )}
 
