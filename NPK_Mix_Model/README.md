@@ -14,6 +14,16 @@ python -m pip install -r requirements.txt
 python -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8501
 ```
 
+Alternatively, after installing the dependencies, start it from the repository
+root with:
+
+```powershell
+.\NPK_Mix_Model\run_backend.bat
+```
+
+The launcher uses `NPK_Mix_Model\.venv` when present and checks that the API
+dependencies are installed before starting on port 8501.
+
 Keep the frontend running separately with `npm run dev` from `frontend`.
 The frontend uses `http://127.0.0.1:8501` by default; set
 `NEXT_PUBLIC_NPK_API_URL` before starting Next.js to override it.

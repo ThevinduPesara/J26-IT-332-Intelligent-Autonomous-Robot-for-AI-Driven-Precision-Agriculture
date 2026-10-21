@@ -1,0 +1,66 @@
+{
+    "overall_prediction": "N_Def",
+    "overall_confidence": 0.8359,
+    "number_of_detections": 3,
+    "detections": [
+        {
+            "class_id": 1,
+            "class_name": "N_Def",
+            "confidence": 0.8752,
+            "bounding_box": {
+                "x1": 548.84,
+                "y1": 444.02,
+                "x2": 647.86,
+                "y2": 545.17
+            }
+        },
+        {
+            "class_id": 1,
+            "class_name": "N_Def",
+            "confidence": 0.8199,
+            "bounding_box": {
+                "x1": 780.46,
+                "y1": 300.17,
+                "x2": 868.75,
+                "y2": 443.37
+            }
+        },
+        {
+            "class_id": 1,
+            "class_name": "N_Def",
+            "confidence": 0.8126,
+            "bounding_box": {
+                "x1": 542.61,
+                "y1": 568.69,
+                "x2": 655.09,
+                "y2": 664.14
+            }
+        }
+    ],
+    "class_summary": {
+        "Healthy": {
+            "detections": 0,
+            "average_confidence": 0.0,
+            "highest_confidence": 0.0,
+            "vote_score": 0.0
+        },
+        "N_Def": {
+            "detections": 3,
+            "average_confidence": 0.8359,
+            "highest_confidence": 0.8752,
+            "vote_score": 2.5077
+        },
+        "P_Def": {
+            "detections": 0,
+            "average_confidence": 0.0,
+            "highest_confidence": 0.0,
+            "vote_score": 0.0
+        },
+        "K_Def": {
+            "detections": 0,
+            "average_confidence": 0.0,
+            "highest_confidence": 0.0,
+            "vote_score": 0.0
+        }
+    }
+}

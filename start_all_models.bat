@@ -32,9 +32,9 @@ start "Model 1: Chilli Plant Detection [Port 8000]" cmd /k "title Model 1: Chill
 :: Wait 1.5 seconds before launching next
 timeout /t 2 /nobreak >nul
 
-:: Model 2: NPK Mix Model (Port 8001)
-echo [2/4] Starting Model 2: NPK Mix Model (NutrientOS) on Port 8001...
-start "Model 2: NPK Mix Model [Port 8001]" cmd /k "title Model 2: NPK Mix Model [Port 8001] && color 0E && cd /d "%~dp0NPK_Mix_Model" && "!PYTHON_CMD!" -m uvicorn backend.main:app --host 0.0.0.0 --port 8001"
+:: Model 2: NPK Mix Model (Port 8501)
+echo [2/4] Starting Model 2: NPK Mix Model (NutrientOS) on Port 8501...
+start "Model 2: NPK Mix Model [Port 8501]" cmd /k "title Model 2: NPK Mix Model [Port 8501] && color 0E && cd /d "%~dp0NPK_Mix_Model" && call run_backend.bat"
 
 timeout /t 2 /nobreak >nul
 
@@ -46,7 +46,7 @@ timeout /t 2 /nobreak >nul
 
 :: Model 4: Seed Dispensing Model (Port 8003)
 echo [4/4] Starting Model 4: Seed Dispensing (PaddyVision) on Port 8003...
-start "Model 4: Seed Dispensing [Port 8003]" cmd /k "title Model 4: Seed Dispensing [Port 8003] && color 0D && cd /d "%~dp0seed_dispensing_model\PaddyVision_Studio_Complete\PaddyVision_Studio" && "!PYTHON_CMD!" -m uvicorn backend.main:app --host 0.0.0.0 --port 8003"
+start "Model 4: Seed Dispensing [Port 8003]" cmd /k "title Model 4: Seed Dispensing [Port 8003] && color 0D && cd /d "%~dp0seed_dispensing_model" && call run_backend.bat"
 
 echo.
 echo ===============================================================================
@@ -54,7 +54,7 @@ echo     ALL 4 AI MODELS STARTED SUCCESSFULLY!
 echo ===============================================================================
 echo.
 echo  * Model 1 (Chilli Detection):  http://127.0.0.1:8000  (Docs: /docs)
-echo  * Model 2 (NPK Mix Nutrient):  http://127.0.0.1:8001  (Docs: /docs)
+echo  * Model 2 (NPK Mix Nutrient):  http://127.0.0.1:8501  (Docs: /docs)
 echo  * Model 3 (Pest Detection):    http://127.0.0.1:8002  (Docs: /docs)
 echo  * Model 4 (Seed Dispensing):   http://127.0.0.1:8003  (Docs: /docs)
 echo.

@@ -77,7 +77,7 @@ export default function PaddyGapDetector() {
       return;
     }
     if (backendOnline !== true) {
-      setErrorMessage("PaddyVision API is offline. Start the backend on port 8001 and retry.");
+      setErrorMessage("PaddyVision API is offline. Start the backend on port 8003 and retry.");
       return;
     }
     if (!models.some((model) => model.id === selectedModel && model.available)) {
@@ -161,7 +161,7 @@ export default function PaddyGapDetector() {
             {backendOnline === false && (
               <p className="mt-1 text-rose-600">
                 Start the API from the PaddyVision Studio folder with{" "}
-                <code>uvicorn backend.main:app --reload --port 8001</code>.
+                <code>uvicorn backend.main:app --reload --port 8003</code>.
               </p>
             )}
           </div>
