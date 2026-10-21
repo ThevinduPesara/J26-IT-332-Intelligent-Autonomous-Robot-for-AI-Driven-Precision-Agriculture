@@ -5,12 +5,19 @@ BASE_DIR = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = BASE_DIR / "outputs"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
+REPO_PEST_DIR = Path(__file__).resolve().parents[4]
+DEFAULT_MODEL_CANDIDATES = [
+    REPO_PEST_DIR / "training_results" / "YOLOv8n_Pest_Detection" / "weights" / "best.pt",
+    REPO_PEST_DIR / "yolov8n.pt",
+    BASE_DIR / "weights" / "best.pt",
+]
+
+resolved_model_path = next((p for p in DEFAULT_MODEL_CANDIDATES if p.exists()), DEFAULT_MODEL_CANDIDATES[0])
+
 MODEL_PATH = Path(
-    os.getenv(
-        "PEST_MODEL_PATH",
-        "/Users/madusankagajadeera/Downloads/Thevindu_AI_Part/training_results/YOLOv8n_Pest_Detection/weights/best.pt",
-    )
+    os.getenv("PEST_MODEL_PATH", str(resolved_model_path))
 )
+
 
 IMAGE_SIZE = int(os.getenv("PEST_IMAGE_SIZE", "640"))
 DEFAULT_CONFIDENCE = float(os.getenv("PEST_CONFIDENCE", "0.25"))
