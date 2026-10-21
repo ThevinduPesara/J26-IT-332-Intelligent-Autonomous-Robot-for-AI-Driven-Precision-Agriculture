@@ -276,10 +276,7 @@ export default function PaddyGapDetector() {
             ))}
           </div>
 
-          <p className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs leading-5 text-amber-900">
-            <Layers className="mt-0.5 h-4 w-4 shrink-0" />
-            This model returns plant, soil, and weed segmentation, not individual gap counts or field coordinates. Soil percentage is not a direct missing-plant measurement.
-          </p>
+          
         </section>
       )}
     </div>
