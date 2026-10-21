@@ -49,19 +49,25 @@ export default function MovementControlsCard({
         {/* Move Left & Move Right Action Buttons */}
         <div className="grid grid-cols-2 gap-3.5 mb-3.5">
           <button
+            type="button"
             onClick={onMoveLeft}
-            className="flex flex-col items-center justify-center gap-1.5 py-4 px-3 rounded-xl bg-[#14532d] hover:bg-emerald-900 text-white font-semibold text-xs active:scale-95 transition shadow-xs cursor-pointer"
+            onMouseDown={onMoveLeft}
+            className="flex flex-col items-center justify-center gap-1.5 py-4 px-3 rounded-xl bg-[#14532d] hover:bg-emerald-900 active:bg-emerald-950 text-white font-semibold text-xs active:scale-95 transition shadow-xs cursor-pointer select-none"
           >
             <ArrowLeft className="w-5 h-5" />
-            <span>Move Left</span>
+            <span className="font-bold">Move Left</span>
+            <span className="text-[10px] text-emerald-200/80 font-normal">Click or Hold</span>
           </button>
 
           <button
+            type="button"
             onClick={onMoveRight}
-            className="flex flex-col items-center justify-center gap-1.5 py-4 px-3 rounded-xl bg-[#14532d] hover:bg-emerald-900 text-white font-semibold text-xs active:scale-95 transition shadow-xs cursor-pointer"
+            onMouseDown={onMoveRight}
+            className="flex flex-col items-center justify-center gap-1.5 py-4 px-3 rounded-xl bg-[#14532d] hover:bg-emerald-900 active:bg-emerald-950 text-white font-semibold text-xs active:scale-95 transition shadow-xs cursor-pointer select-none"
           >
             <ArrowRight className="w-5 h-5" />
-            <span>Move Right</span>
+            <span className="font-bold">Move Right</span>
+            <span className="text-[10px] text-emerald-200/80 font-normal">Click or Hold</span>
           </button>
         </div>
 
