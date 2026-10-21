@@ -1,0 +1,173 @@
+{
+  "info": {
+    "name": "ChilliGuard Vision API",
+    "description": "Postman collection for the ChilliGuard Vision backend endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Root",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Model Info",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/model",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "model"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Predict Image",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "",
+              "description": "Upload the pest image to classify."
+            },
+            {
+              "key": "confidence",
+              "value": "0.25",
+              "type": "text",
+              "description": "Detection confidence threshold (0.05 - 0.95)."
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/predict/image?confidence=0.25",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "predict",
+            "image"
+          ],
+          "query": [
+            {
+              "key": "confidence",
+              "value": "0.25"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Predict Frame",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "",
+              "description": "Upload a frame/image for inference."
+            },
+            {
+              "key": "confidence",
+              "value": "0.25",
+              "type": "text",
+              "description": "Detection confidence threshold (0.05 - 0.95)."
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/predict/frame?confidence=0.25",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "predict",
+            "frame"
+          ],
+          "query": [
+            {
+              "key": "confidence",
+              "value": "0.25"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Camera Stream",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/camera/stream?confidence=0.25",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "camera",
+            "stream"
+          ],
+          "query": [
+            {
+              "key": "confidence",
+              "value": "0.25"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000",
+      "type": "string"
+    }
+  ]
+}
