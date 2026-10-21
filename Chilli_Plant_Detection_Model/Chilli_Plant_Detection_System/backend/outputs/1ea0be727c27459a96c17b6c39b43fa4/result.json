@@ -1,0 +1,99 @@
+{
+    "overall_prediction": "K_Def",
+    "overall_confidence": 0.4314,
+    "number_of_detections": 6,
+    "detections": [
+        {
+            "class_id": 3,
+            "class_name": "K_Def",
+            "confidence": 0.6347,
+            "bounding_box": {
+                "x1": 3472.33,
+                "y1": 1942.18,
+                "x2": 3756.14,
+                "y2": 2239.25
+            }
+        },
+        {
+            "class_id": 3,
+            "class_name": "K_Def",
+            "confidence": 0.5143,
+            "bounding_box": {
+                "x1": 2542.08,
+                "y1": 1922.02,
+                "x2": 2772.27,
+                "y2": 2242.1
+            }
+        },
+        {
+            "class_id": 3,
+            "class_name": "K_Def",
+            "confidence": 0.493,
+            "bounding_box": {
+                "x1": 2173.9,
+                "y1": 1839.6,
+                "x2": 2342.73,
+                "y2": 2174.35
+            }
+        },
+        {
+            "class_id": 3,
+            "class_name": "K_Def",
+            "confidence": 0.335,
+            "bounding_box": {
+                "x1": 3155.37,
+                "y1": 1939.49,
+                "x2": 3357.16,
+                "y2": 2238.59
+            }
+        },
+        {
+            "class_id": 3,
+            "class_name": "K_Def",
+            "confidence": 0.3241,
+            "bounding_box": {
+                "x1": 2365.65,
+                "y1": 1223.64,
+                "x2": 2583.14,
+                "y2": 1732.23
+            }
+        },
+        {
+            "class_id": 3,
+            "class_name": "K_Def",
+            "confidence": 0.2874,
+            "bounding_box": {
+                "x1": 2068.01,
+                "y1": 0.0,
+                "x2": 3987.49,
+                "y2": 986.19
+            }
+        }
+    ],
+    "class_summary": {
+        "Healthy": {
+            "detections": 0,
+            "average_confidence": 0.0,
+            "highest_confidence": 0.0,
+            "vote_score": 0.0
+        },
+        "N_Def": {
+            "detections": 0,
+            "average_confidence": 0.0,
+            "highest_confidence": 0.0,
+            "vote_score": 0.0
+        },
+        "P_Def": {
+            "detections": 0,
+            "average_confidence": 0.0,
+            "highest_confidence": 0.0,
+            "vote_score": 0.0
+        },
+        "K_Def": {
+            "detections": 6,
+            "average_confidence": 0.4314,
+            "highest_confidence": 0.6347,
+            "vote_score": 2.5885
+        }
+    }
+}
