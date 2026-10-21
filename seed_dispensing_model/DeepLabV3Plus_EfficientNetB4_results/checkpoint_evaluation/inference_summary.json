@@ -1,0 +1,92 @@
+[
+  {
+    "image": "DJI_0326_JPG.rf.ba8c7336b780cdb259b0415f348f29c0.jpg",
+    "prediction_percent": {
+      "Existing plants": 88.39,
+      "Soil": 11.61,
+      "Weeds": 0.0
+    },
+    "mean_prediction_confidence": 0.9434
+  },
+  {
+    "image": "DJI_0346_JPG.rf.15bc6eb1f14840d11759548ff5a3993d.jpg",
+    "prediction_percent": {
+      "Existing plants": 99.71,
+      "Soil": 0.29,
+      "Weeds": 0.0
+    },
+    "mean_prediction_confidence": 0.992
+  },
+  {
+    "image": "DJI_0348_JPG.rf.056fe450c7f4dfe47cead3b68e69d2ea.jpg",
+    "prediction_percent": {
+      "Existing plants": 99.99,
+      "Soil": 0.01,
+      "Weeds": 0.0
+    },
+    "mean_prediction_confidence": 0.9953
+  },
+  {
+    "image": "DJI_0359_JPG.rf.341815abfdbe400b6a94d7ce0ce3bce8.jpg",
+    "prediction_percent": {
+      "Existing plants": 83.6,
+      "Soil": 16.4,
+      "Weeds": 0.0
+    },
+    "mean_prediction_confidence": 0.9657
+  },
+  {
+    "image": "DJI_0362_JPG.rf.cc325843fd5f35d77bb8b34f1780ff56.jpg",
+    "prediction_percent": {
+      "Existing plants": 71.37,
+      "Soil": 10.26,
+      "Weeds": 18.37
+    },
+    "mean_prediction_confidence": 0.9565
+  },
+  {
+    "image": "DJI_0370_JPG.rf.a71ec3580dda9ae330d1dacbd00130ca.jpg",
+    "prediction_percent": {
+      "Existing plants": 41.54,
+      "Soil": 15.37,
+      "Weeds": 43.09
+    },
+    "mean_prediction_confidence": 0.9618
+  },
+  {
+    "image": "DJI_0386_JPG.rf.c0a82380d253b2bcf41176a149635431.jpg",
+    "prediction_percent": {
+      "Existing plants": 77.59,
+      "Soil": 11.18,
+      "Weeds": 11.24
+    },
+    "mean_prediction_confidence": 0.9429
+  },
+  {
+    "image": "DJI_0409_JPG.rf.e1d89594310346154fa73caa991ef0d4.jpg",
+    "prediction_percent": {
+      "Existing plants": 88.36,
+      "Soil": 0.1,
+      "Weeds": 11.54
+    },
+    "mean_prediction_confidence": 0.9792
+  },
+  {
+    "image": "DJI_0411_JPG.rf.448574f823592f3c9048b2ce9b531471.jpg",
+    "prediction_percent": {
+      "Existing plants": 68.99,
+      "Soil": 11.81,
+      "Weeds": 19.2
+    },
+    "mean_prediction_confidence": 0.9638
+  },
+  {
+    "image": "DJI_0415_JPG.rf.0abb543edd8d7329d35a291ba66c0404.jpg",
+    "prediction_percent": {
+      "Existing plants": 72.94,
+      "Soil": 6.49,
+      "Weeds": 20.57
+    },
+    "mean_prediction_confidence": 0.9746
+  }
+]
