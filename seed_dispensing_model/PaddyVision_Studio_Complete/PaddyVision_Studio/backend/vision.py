@@ -76,7 +76,10 @@ def _build(spec, ckpt):
         try:
             from transformers import SegformerConfig, SegformerForSemanticSegmentation
         except Exception as exc:
-            raise RuntimeError('Install compatible transformers==4.46.3 (see requirements.txt).') from exc
+            raise RuntimeError(
+                'Install PaddyVision dependencies with '
+                '`python -m pip install -r requirements.txt` from the Studio folder.'
+            ) from exc
         # nvidia/mit-b0 was an ImageNet encoder checkpoint. Segmentation head
         # used the standard B0 configuration and three output channels.
         # Construct locally, not from_pretrained: no internet required at inference.

@@ -22,8 +22,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full bg-[#f8fafc] antialiased">
-      <body className={`${inter.className} min-h-screen bg-[#f8fafc] text-slate-900`}>
+    <html lang="en" className="h-full bg-[#f8fafc] antialiased" suppressHydrationWarning>
+      <body className={`${inter.className} min-h-screen bg-[#f8fafc] text-slate-900`} suppressHydrationWarning>
         <div className="flex min-h-screen bg-[#f8fafc]">
           {/* Left Navigation Sidebar */}
           <Sidebar />

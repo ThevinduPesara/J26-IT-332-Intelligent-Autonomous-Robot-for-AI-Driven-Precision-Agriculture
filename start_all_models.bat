@@ -46,7 +46,7 @@ timeout /t 2 /nobreak >nul
 
 :: Model 4: Seed Dispensing Model (Port 8003)
 echo [4/4] Starting Model 4: Seed Dispensing (PaddyVision) on Port 8003...
-start "Model 4: Seed Dispensing [Port 8003]" cmd /k "title Model 4: Seed Dispensing [Port 8003] && color 0D && cd /d "%~dp0seed_dispensing_model\PaddyVision_Studio_Complete\PaddyVision_Studio" && "!PYTHON_CMD!" -m uvicorn backend.main:app --host 0.0.0.0 --port 8003"
+start "Model 4: Seed Dispensing [Port 8003]" cmd /k "title Model 4: Seed Dispensing [Port 8003] && color 0D && cd /d "%~dp0seed_dispensing_model" && call run_backend.bat"
 
 echo.
 echo ===============================================================================
