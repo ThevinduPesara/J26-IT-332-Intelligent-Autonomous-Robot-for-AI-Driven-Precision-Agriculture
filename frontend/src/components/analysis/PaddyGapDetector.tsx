@@ -39,20 +39,28 @@ export default function PaddyGapDetector() {
   useEffect(() => {
     let isCurrent = true;
 
-    Promise.all([checkPaddyApiHealth(), getPaddyModels()])
-      .then(([isOnline, response]) => {
+    const refreshApiStatus = async () => {
+      try {
+        const [isOnline, response] = await Promise.all([
+          checkPaddyApiHealth(),
+          getPaddyModels(),
+        ]);
         if (!isCurrent) return;
         setBackendOnline(isOnline);
         setModels(response.models);
         const availableModel = response.models.find((model) => model.available);
         if (availableModel) setSelectedModel(availableModel.id);
-      })
-      .catch(() => {
+      } catch {
         if (isCurrent) setBackendOnline(false);
-      });
+      }
+    };
+
+    void refreshApiStatus();
+    const statusInterval = setInterval(() => void refreshApiStatus(), 10000);
 
     return () => {
       isCurrent = false;
+      clearInterval(statusInterval);
     };
   }, []);
 
