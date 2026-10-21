@@ -59,8 +59,8 @@ export default function PaddyGapDetector() {
         modelName="Paddy Gap Detection"
         description="Upload aerial drone videos or multispectral photos to detect missing seedlings, crop gaps, and auto-queue reseeding points."
         defaultSamples={paddySamples}
-        onAnalyze={(url, type) =>
-          alert(`Paddy Gap Detection Model executed on ${type.toUpperCase()}: 28 Gaps Mapped!`)
+        onAnalyze={(media) =>
+          alert(`Paddy Gap Detection Model executed on ${media.type.toUpperCase()}: 28 Gaps Mapped!`)
         }
       />
 

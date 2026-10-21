@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import NavigationHeader from "@/components/navigation/NavigationHeader";
 import CableTrackMatrix from "@/components/navigation/CableTrackMatrix";
-import MotorTelemetryCards from "@/components/navigation/MotorTelemetryCards";
 import MovementControlsCard from "@/components/navigation/MovementControlsCard";
 import { navigationData } from "@/data/navigationData";
 
@@ -63,11 +62,6 @@ export default function RobotNavigationPage() {
             totalLength={navigationData.trackMatrix.totalLength}
             targetNode={navigationData.trackMatrix.targetNode}
             nodes={navigationData.trackMatrix.nodes}
-          />
-
-          <MotorTelemetryCards
-            stepperMotorLoad={navigationData.telemetry.stepperMotorLoad}
-            driverTemperature={navigationData.telemetry.driverTemperature}
           />
         </div>
 
