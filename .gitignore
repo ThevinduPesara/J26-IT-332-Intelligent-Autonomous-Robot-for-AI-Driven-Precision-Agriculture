@@ -7,6 +7,7 @@ ChilliGuard_Vision/ChilliGuard_Vision/backend/outputs/*
 # Python / OS / env
 __pycache__/
 *.pyc
+.venv/
 .DS_Store
 .env
 node_modules/
