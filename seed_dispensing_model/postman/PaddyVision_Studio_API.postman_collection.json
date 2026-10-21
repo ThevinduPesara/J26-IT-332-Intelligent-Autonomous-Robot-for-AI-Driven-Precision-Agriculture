@@ -1,0 +1,164 @@
+{
+  "info": {
+    "_postman_id": "dbe88b66-91a5-4a3a-93cb-3cfbcdf31cc0",
+    "name": "PaddyVision Studio API",
+    "description": "Postman collection for the FastAPI endpoints used by the PaddyVision Studio frontend.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8001",
+      "type": "string"
+    },
+    {
+      "key": "model_id",
+      "value": "segformer_base",
+      "type": "string"
+    },
+    {
+      "key": "alpha",
+      "value": "0.52",
+      "type": "string"
+    },
+    {
+      "key": "image_file",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Service",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Models",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/models",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "models"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Benchmarks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/benchmarks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "benchmarks"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Inference",
+      "item": [
+        {
+          "name": "Predict image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "{{image_file}}"
+                },
+                {
+                  "key": "model_id",
+                  "value": "{{model_id}}",
+                  "type": "text"
+                },
+                {
+                  "key": "alpha",
+                  "value": "{{alpha}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/predict",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "predict"
+              ]
+            },
+            "description": "Run one selected model or the probability ensemble. Supported model_id values: segformer_base, segformer_group, deeplab_b4, ensemble."
+          },
+          "response": []
+        },
+        {
+          "name": "Compare all models",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "{{image_file}}"
+                },
+                {
+                  "key": "alpha",
+                  "value": "{{alpha}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/compare",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "compare"
+              ]
+            },
+            "description": "Run every available checkpoint on the same image and return individual results plus the mean-probability ensemble."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

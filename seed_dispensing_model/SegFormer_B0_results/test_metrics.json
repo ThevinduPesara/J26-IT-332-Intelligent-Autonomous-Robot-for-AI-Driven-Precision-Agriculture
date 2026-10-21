@@ -1,0 +1,20 @@
+{
+    "pixel_accuracy": 0.9096285229982475,
+    "mean_iou": 0.6878723577145963,
+    "mean_dice": 0.8059621067776014,
+    "existing_plants_iou": 0.8968671667687953,
+    "existing_plants_dice": 0.9456299128173083,
+    "existing_plants_precision": 0.9400570304727937,
+    "existing_plants_recall": 0.9512692639568004,
+    "soil_iou": 0.6218715973459809,
+    "soil_dice": 0.766856757789713,
+    "soil_precision": 0.9317150066904141,
+    "soil_recall": 0.6515679144750617,
+    "weeds_iou": 0.5448783090290128,
+    "weeds_dice": 0.705399649725783,
+    "weeds_precision": 0.6460868779371008,
+    "weeds_recall": 0.7767034240498307,
+    "test_loss": 0.9077692826588949,
+    "best_epoch": 15,
+    "best_validation_miou": 0.6715687233805236
+}

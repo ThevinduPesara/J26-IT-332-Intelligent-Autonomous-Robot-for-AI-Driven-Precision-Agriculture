@@ -1,0 +1,13 @@
+path: .
+
+train: images/train
+val: images/val
+test: images/test
+
+nc: 4
+
+names:
+  0: Healthy
+  1: N_Def
+  2: P_Def
+  3: K_Def
