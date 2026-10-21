@@ -5,7 +5,6 @@ import {
   Upload,
   Image as ImageIcon,
   Video,
-  RefreshCw,
   Sliders,
   CheckCircle2,
   Sparkles,
@@ -24,6 +23,9 @@ interface ModelMediaUploaderProps {
   isAnalyzing?: boolean;
   analyzedSuccess?: boolean;
   confidence?: number;
+  accept?: string;
+  uploadPrompt?: string;
+  uploadHint?: string;
   onConfidenceChange?: (conf: number) => void;
   onAnalyze?: (media: {
     file: File | null;
@@ -40,6 +42,9 @@ export default function ModelMediaUploader({
   isAnalyzing = false,
   analyzedSuccess = false,
   confidence = 0.25,
+  accept = "image/*,video/*",
+  uploadPrompt = "Drag & drop or Click to upload Leaf Image",
+  uploadHint = "Direct high-resolution input for YOLO11s NPK defect classification",
   onConfidenceChange,
   onAnalyze,
 }: ModelMediaUploaderProps) {
@@ -146,7 +151,7 @@ export default function ModelMediaUploader({
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/*,video/*"
+              accept={accept}
               className="hidden"
               onChange={handleFileUpload}
             />
@@ -154,10 +159,10 @@ export default function ModelMediaUploader({
               <Upload className="w-6 h-6" />
             </div>
             <span className="text-xs font-bold text-slate-800 group-hover:text-emerald-900">
-              Drag & drop or Click to upload Leaf Image
+              {uploadPrompt}
             </span>
             <span className="text-[11px] text-slate-400 mt-1 max-w-xs">
-              Direct high-resolution input for YOLO11s NPK defect classification
+              {uploadHint}
             </span>
             <span className="mt-3 px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 text-[11px] font-bold text-slate-700 shadow-2xs group-hover:border-emerald-400">
               Browse Files from Computer
