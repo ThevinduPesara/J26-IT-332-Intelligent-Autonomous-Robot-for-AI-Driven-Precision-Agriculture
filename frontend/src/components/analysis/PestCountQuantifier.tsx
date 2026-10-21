@@ -90,13 +90,13 @@ export default function PestCountQuantifier() {
     };
   }, []);
 
-  const runInferenceOnSample = async (url: string, name: string) => {
+  const runInferenceOnSample = async (url: string, name: string, confOverride?: number) => {
     setIsAnalyzing(true);
     setSelectedSample(url);
     setPreviewImage(url);
 
     try {
-      const res = await pestDetectionService.predictSample(url, name, confidence);
+      const res = await pestDetectionService.predictSample(url, name, confOverride ?? confidence);
       setPrediction(res);
     } catch (e) {
       console.error(e);
