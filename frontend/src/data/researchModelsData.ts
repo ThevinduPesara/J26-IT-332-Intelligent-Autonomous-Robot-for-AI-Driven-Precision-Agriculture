@@ -68,20 +68,10 @@ export const researchModelsData = {
   // Model 3: Paddy (වී වගාව) Crop Gap & Canopy Discontinuity Detector
   paddyGap: {
     title: "Paddy Crop Gap & Seedling Discontinuity Detector",
-    badge: "Computer Vision YOLO-Paddy",
-    cropType: "Oryza sativa (Paddy / Rice Field Sector C)",
-    fieldCoverage: "1.2 Hectares Scanned",
-    totalGapsDetected: 28,
-    missingPlantPercentage: "7.8%",
-    recommendedAction: "Auto-Reseed via Dispenser",
+    badge: "PaddyVision Semantic Segmentation",
+    cropType: "Oryza sativa (Paddy / Rice)",
     summary:
-      "Analyzes row continuity and canopy spacing in paddy fields to detect missing seedlings, seedling mortality, and irregular spacing for targeted automated reseeding.",
-    gapLocations: [
-      { id: "GAP-01", row: "Row 04", span: "1.2 m (3 plants missing)", coords: "X: 12.4m, Y: 4.8m", priority: "High" },
-      { id: "GAP-02", row: "Row 07", span: "0.8 m (2 plants missing)", coords: "X: 24.1m, Y: 8.2m", priority: "Medium" },
-      { id: "GAP-03", row: "Row 11", span: "1.6 m (4 plants missing)", coords: "X: 38.6m, Y: 12.5m", priority: "High" },
-      { id: "GAP-04", row: "Row 15", span: "0.5 m (1 plant missing)", coords: "X: 52.0m, Y: 16.1m", priority: "Low" },
-    ],
+      "Segments paddy-field images into existing plants, soil, and weeds, then summarizes class coverage and model confidence. This API does not generate individual gap counts or robot coordinates.",
   },
 
   // Model 4: Precise Pest Count & Multi-Class Infestation Quantifier
