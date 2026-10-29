@@ -1,0 +1,33 @@
+{
+  "default_branch": "Main",
+  "branches": [
+    "Main",
+    "Seed-Dispenser-Control",
+    "backup",
+    "frontend-dev",
+    "naviagtion-implimant",
+    "pest_detection_model",
+    "run-script",
+    "seed_dispensing_model_intergrate"
+  ],
+  "parent": {
+    "Main": null,
+    "Seed-Dispenser-Control": "Main",
+    "backup": "Main",
+    "frontend-dev": "Main",
+    "naviagtion-implimant": "Main",
+    "pest_detection_model": "Main",
+    "run-script": "Main",
+    "seed_dispensing_model_intergrate": "Main"
+  },
+  "order": [
+    "Main",
+    "Seed-Dispenser-Control",
+    "backup",
+    "frontend-dev",
+    "naviagtion-implimant",
+    "pest_detection_model",
+    "run-script",
+    "seed_dispensing_model_intergrate"
+  ]
+}
